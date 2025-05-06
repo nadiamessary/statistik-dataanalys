@@ -7,4 +7,4 @@ addMdToPage(`Jag har valt att titta på några delar i datan som jag tror kan va
 
 Jag har grupperat alla olika utbildningar (i tabellen: Degree) och översatt dem efter bästa förmåga.
 Jag har förstått det som att CGPI är ett slags betygssystem och har därför valt att gruppera betygen utifrån 3 kategorier(låg, medium, hög).
-`);
+`)
