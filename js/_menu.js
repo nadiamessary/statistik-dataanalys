@@ -1,6 +1,6 @@
 createMenu('Psykisk ohälsa bland studerande i Indien', [
   { name: 'Start', script: 'startsida.js' },
-  { name: 'Depression', script: 'studentsWithDepression.js' },
-  { name: 'Diet & sömn', script: 'studentsSleepDiet.js' },
-  { name: 'Utbildning', script: 'studentsStudyResults.js' }
+  { name: 'Historik av psykisk ohälsa', script: 'studentsWithDepression.js' },
+  { name: 'Hälsovanor', script: 'studentsSleepDiet.js' },
+  { name: 'Akademisk prestation', script: 'studentsStudyResults.js' }
 ])

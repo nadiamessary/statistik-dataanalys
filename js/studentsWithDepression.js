@@ -72,4 +72,6 @@ drawGoogleChart({
     height: 400
   }
 });
-addMdToPage(`Majoriteten av de som är deprimerade tampas med självmord vilket är en indikator på allvarlighetsgraden av psykisk ohälsa bland studenter i Indien. Psykisk ohälsa i familjen verkar dock inte vara en faktor för depression.`);
+addMdToPage(`Resultaten skiljer sig inte nämnvärt mellan kön.
+  <br><br>Man brukar säga att depression är en av de absolut dödligaste sjukdomarna, och enligt resultatet ovan tampas majoriteten av de som är deprimerade även med självmord - hela 85%. Detta är oroande och kan vara är en indikator för allvarlighetsgraden av psykisk ohälsa bland studenter i Indien. 
+  <br><br>Psykisk ohälsa i familjen verkar i sig inte vara en faktor för depression, även om studenter med psykisk ohälsa i familjen visar små tendenser till att vara mer deprimerade än de som inte har psykisk ohälsa i familjen. `);

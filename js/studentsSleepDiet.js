@@ -43,7 +43,8 @@ drawGoogleChart({
     height: 400
   }
 });
-addMdToPage("Utifrån grafen ovan verkar det som att vi kan dra slutsatsen att ju mer ohälsosam kost, desto större risk för depression.");
+addMdToPage(`Vi kan se stora skillnader i fördelningen av deprimerade som äter hälsosamt och ohälsosamt: det verkar som att vi kan dra slutsatsen att ju mer ohälsosam kost, desto större risk för depression.
+<br><br>En viktig fundering är dock "vad är en hälsosam diet?". Många personer tror att de äter hälsosamt fastän de egentligen inte gör det. Är det en faktor som skulle kunna påverka resultatet så att vi egentligen borde se en ännu lägre andel deprimerade som har en hälsosam diet?`);
 
 let sleepDep = await dbQuery(`
   SELECT SleepDuration AS category, ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM depressionIndia WHERE Depression = 1), 1) AS percent
@@ -88,4 +89,37 @@ drawGoogleChart({
     height: 400
   }
 });
-addMdToPage("Det verkar inte som att antal sömntimmar har större påverkan på depression hos indiska studenter förutom i ändarna på sömntimmarna: av de som sover färre än 5 timmar per natt är en majoritet deprimerade och bland de som sover fler än 8 timmar per natt är majoriteten inte deprimerad.");
+addMdToPage("Bland de studenter som har hälsosamma sömnvanor (mellan 6 och 8 timmar per natt) är fördelningen relativt jämn mellan deprimerade och icke-deprimerade.<br><br>I ändorna av sömnskalan är skillnaderna desto större: studenter som sover färre än 5 timmar är i större grad deprimerade - det är ovanligt att deprimerade sover i mer än 8 timmar per natt.");
+
+
+let unhealthyShortSleepData = await dbQuery(`
+  SELECT 
+    SUM(CASE WHEN Depression = 1 THEN 1 ELSE 0 END) AS deprimerade,
+    SUM(CASE WHEN Depression = 0 THEN 1 ELSE 0 END) AS ickedeprimerade
+  FROM depressionIndia
+  WHERE DietaryHabits = 3 AND SleepDuration = 5
+`);
+
+let totalComboStudents = unhealthyShortSleepData[0].deprimerade + unhealthyShortSleepData[0].ickedeprimerade;
+
+if (totalComboStudents > 0) {
+  let pieChartData = [
+    { Status: "Deprimerade", Andel: Math.round(1000 * unhealthyShortSleepData[0].deprimerade / totalComboStudents) / 10 },
+    { Status: "Inte deprimerade", Andel: Math.round(1000 * unhealthyShortSleepData[0].ickedeprimerade / totalComboStudents) / 10 }
+  ];
+
+  addMdToPage("## Ohälsosam diet och dålig sömn i kombination");
+  addMdToPage("Vi har sett att studenter med ohälsosamma dietvanor verkar vara mer deprimerade, likaså för studenterna med dålig sömn. Därför är det intressant att titta på hur det ser ut för studenter som både sagt sig ha ohälsosam diet och dålig sömn.");
+
+  drawGoogleChart({
+    type: 'PieChart',
+    data: makeChartFriendly(pieChartData, 'Status', 'Andel'),
+    options: {
+      title: "Ohälsosam diet och dålig sömn i kombination",
+      colors: ['#6a0dad', '#ff8c00'],
+      height: 400
+    }
+  });
+}
+
+  addMdToPage("Resultatet här är talande: av de som både har ohälsosam diet och sover dåligt är en klar majoritet deprimerade. För att bryta trenden av psykisk ohälsa behöver studenterna sova mer och äta bättre!");
